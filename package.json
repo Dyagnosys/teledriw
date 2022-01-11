@@ -1,6 +1,19 @@
 {
+  "name": "with-video-background",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "android": "expo start --android",
+    "eject": "expo eject",
+    "git": "git add . & git commit -m 'automated-commit' & git push",
+    "ios": "expo start --ios",
+    "sort": "npx sort-package-json",
+    "start": "expo start",
+    "web": "expo start --web"
+  },
   "dependencies": {
-    "@expo-google-fonts/roboto-condensed": "^0.2.0",
+    "@react-navigation/native": "^6.0.6",
+    "@react-navigation/stack": "^6.0.11",
     "expo": "^44.0.0",
     "expo-app-loading": "~1.3.0",
     "expo-asset": "~8.4.5",
@@ -9,21 +22,20 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
+    "react-native-gesture-handler": "^2.1.1",
+    "react-native-safe-area-context": "^3.3.2",
+    "react-router-dom": "6",
+    "react-router-native": "^6.2.1",
+    "@react-native-async-storage/async-storage": "~1.15.0",
+    "@tensorflow-models/mobilenet": "^2.1.0",
+    "@tensorflow/tfjs": "^3.10.0",
+    "@tensorflow/tfjs-react-native": "^0.7.0",
+    "expo-camera": "~12.1.0",
+    "expo-gl": "~11.1.1",
+    "react-native-fs": "^2.16.6",
     "react-native-web": "0.17.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
-  },
-  "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "eject": "expo eject",
-    "git": "git add . & git commit -m 'automated-commit' & git push",
-    "sort": "npx sort-package-json"
-  },
-  "version": "1.0.0",
-  "private": true,
-  "name": "with-video-background"
+  }
 }

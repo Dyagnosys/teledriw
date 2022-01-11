@@ -1,11 +1,23 @@
-import { Video } from "expo-av";
+import React, { useState } from 'react';
 import { useMemo } from "react";
-import { Animated, StyleSheet, Text, View, Image } from "react-native";
+import { Animated, StyleSheet, Text, View, Image, Linking, Button } from "react-native";
+import { Video } from "expo-av";
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 
-import React, { useState } from 'react';
+
+import { Camera } from "expo-camera";
+import { LoadingView } from "./src/components/tfjs/LoadingView";
+import { ModelView } from "./src/components/tfjs/ModelView";
+import { useTensorFlowLoaded } from "./src/components/tfjs/useTensorFlow";
+
+import riwlogo from './assets/img/logo/riw.png';
+
 const styles = StyleSheet.create({
+  nav: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
   container: {
     alignItems: "center",
     backgroundColor: "transparent",
@@ -38,8 +50,6 @@ const styles = StyleSheet.create({
   }
 });
 
-import riwlogo from './assets/img/logo/riw.png';
-
 const fetchFonts = async () =>
   await Font.loadAsync({
     RobotoCondensedBold: require('./assets/fonts/RobotoCondensed-Bold.ttf'),
@@ -47,9 +57,16 @@ const fetchFonts = async () =>
   });
 
 
+// -------------------------------------- AQUI COMEÇA O APP ----------------------------// 
+
 export default function App() {
+
+  const isLoaded = useTensorFlowLoaded();
+  const [permission, requestPermission] = Camera.useCameraPermissions();
+
+
   const [IsReady, SetIsReady] = useState(false);
-  const opacity = useMemo(() => new Animated.Value(0), []);
+  const opacity = useMemo(() => new Animated.Value(1), []);
 
   const LoadFonts = async () => {
     await useFonts();
@@ -65,17 +82,30 @@ export default function App() {
     );
   }
 
+  // if (!permission?.granted) {
+  //   return (
+  //     <LoadingView message="">
+  //       <Button title="Estado Emocional" onPress={requestPermission} />
+  //     </LoadingView>
+  //   )
+  // }
+
+  if (!isLoaded) {
+    return <LoadingView message="Loading TensorFlow" />;
+  }
 
   return (
+
     <View style={styles.container}>
       <View style={styles.background}>
         <Animated.View
           style={[styles.backgroundViewWrapper, { opacity: opacity }]}>
           <Video
+            rate={1}
             resizeMode="cover" isLooping isMuted positionMillis={0}
             shouldPlay style={{ flex: 1 }}
             source={
-              require('./assets/videos/videoAI.mp4')
+              require('./assets/videos/videoAI6.mp4')
             }
             onLoad={() => {
               Animated.timing(opacity, {
@@ -87,8 +117,13 @@ export default function App() {
         </Animated.View>
       </View>
 
+
       <View style={styles.title}>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 330 }}>
+
+        {/* Aqui aparece na testa */}
+
+
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 330, marginLeft: 15 }}>
           <Text style={{ fontFamily: 'RobotoCondensedBold', color: "rgba(9,66,125,1)", fontSize: 80 }}>
             TELED
           </Text>
@@ -96,15 +131,21 @@ export default function App() {
             DYAGNOSYS
           </Text>
 
+          <LoadingView message="">
+            <Button title="Estado Emocional" onPress={requestPermission} />
+          </LoadingView>
+
         </View>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: -100 }}>
+        {/* <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: -100 }}>
           <Image style={{ resizeMode: "contain", height: 150, width: 150 }}
             source={riwlogo}
           />
-        </View>
+        </View> */}
+
       </View>
 
     </View>
+
   );
 }
 
