@@ -1,11 +1,14 @@
-import React, { useMemo } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-
+import React, { useState, useMemo } from 'react';
 import { Animated, StyleSheet, Text, View, Button } from "react-native";
 import { Video } from "expo-av";
 import AppLoading from 'expo-app-loading';
 
+import { Camera } from "expo-camera";
+import { LoadingView } from "./src/components/tfjs/LoadingView";
+// import { ModelView } from "./src/components/tfjs/ModelView";
+import { useTensorFlowLoaded } from "./src/components/tfjs/useTensorFlow";
+
+// import riwlogo from './assets/img/logo/riw.png';
 
 const styles = StyleSheet.create({
   nav: {
@@ -44,22 +47,48 @@ const styles = StyleSheet.create({
   }
 });
 
+const fetchFonts = async () =>
+  await Font.loadAsync({
+    RobotoCondensedBold: require('./assets/fonts/RobotoCondensed-Bold.ttf'),
+    RobotoCondensedRegular: require('./assets/fonts/RobotoCondensed-Regular.ttf'),
+  });
 
+// -------------------------------------- AQUI COMEÇA O APP ----------------------------// 
 
-function HomeScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
-    </View>
-  );
-}
+export default function App() {
 
-function DetailsScreen({ navigation }) {
+  const isLoaded = useTensorFlowLoaded();
+  const [permission, requestPermission] = Camera.useCameraPermissions();
+
+  const [IsReady, SetIsReady] = useState(false);
   const opacity = useMemo(() => new Animated.Value(1), []);
+
+  const LoadFonts = async () => {
+    await useFonts();
+  };
+
+  if (!IsReady) {
+    return (
+      <AppLoading
+        startAsync={LoadFonts}
+        onFinish={() => SetIsReady(true)}
+        onError={() => { }}
+      />
+    );
+  }
+
+  // if (!permission?.granted) {
+  //   return (
+  //     <LoadingView message="">
+  //       <Button title="Estado Emocional" onPress={requestPermission} />
+  //     </LoadingView>
+  //   )
+  // }
+
+  if (!isLoaded) {
+    return <LoadingView message="Loading TensorFlow" />;
+  }
+
   return (
 
     <View style={styles.container}>
@@ -97,6 +126,9 @@ function DetailsScreen({ navigation }) {
             DYAGNOSYS
           </Text>
 
+          <LoadingView message="">
+            <Button title="Estado Emocional" onPress={requestPermission} />
+          </LoadingView>
 
         </View>
         {/* <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: -100 }}>
@@ -111,24 +143,3 @@ function DetailsScreen({ navigation }) {
 
   );
 }
-
-const Stack = createStackNavigator();
-
-function App() {
-
-
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Details" component={DetailsScreen}
-          options={{
-            headerShown: false
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
-
-export default App;
