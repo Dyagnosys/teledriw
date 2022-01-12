@@ -12,14 +12,16 @@ export default function App() {
 
   if (!permission?.granted) {
     return (
-      <LoadingView message="Camera permission is required to continue">
-        <Button title="Grant permission" onPress={requestPermission} />
+      <LoadingView message="Por favor, permita utilização da câmera" >
+        <Button title="PERMITIR" onPress={requestPermission} />
       </LoadingView>
+
+
     );
   }
 
   if (!isLoaded) {
-    return <LoadingView message="Loading TensorFlow" />;
+    return <LoadingView message="Carregando modelo de Inteligência Artificial" />;
   }
 
   return <ModelView />;

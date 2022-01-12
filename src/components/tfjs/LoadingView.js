@@ -4,7 +4,7 @@ import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 export function LoadingView({ children, message = '' }) {
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: "row" }}>
+      <View style={{ flexDirection: "column" }}>
         {!!message && <Text style={styles.text}>{message}</Text>}
         {children}
         <ActivityIndicator />

@@ -3,6 +3,7 @@ import { Camera } from 'expo-camera';
 import React from 'react';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 
+
 import { CustomTensorCamera } from './CustomTensorCamera';
 import { LoadingView } from './LoadingView';
 import { PredictionList } from './PredictionList';
@@ -13,7 +14,9 @@ export function ModelView() {
   const [predictions, setPredictions] = React.useState([]);
 
   if (!model) {
-    return <LoadingView message="Loading TensorFlow model" />;
+    return (
+      <LoadingView message="Carregando modelo de Inteligência Artificial" />
+    )
   }
 
   return (
@@ -43,7 +46,8 @@ function ModelCamera({ model, setPredictions }) {
       const loop = async () => {
         const nextImageTensor = images.next().value;
         const predictions = await model.classify(nextImageTensor);
-        setPredictions(predictions);
+        let [a1, a2, a3] = predictions
+        setPredictions([a1]);
         raf.current = requestAnimationFrame(loop);
       };
       loop();

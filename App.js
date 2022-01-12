@@ -61,19 +61,19 @@ const styles = StyleSheet.create({
 });
 
 
-function HomeScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
-    </View>
-  );
-}
+// function HomeScreen({ navigation }) {
+//   return (
+//     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+//       <Text>Home Screen</Text>
+//       <Button
+//         title="Go to Details"
+//         onPress={() => navigation.navigate('Details')}
+//       />
+//     </View>
+//   );
+// }
 
-function DetailsScreen({ navigation }) {
+function TelaPrincipal({ navigation }) {
   const opacity = useMemo(() => new Animated.Value(1), []);
   const layoutStyle = { flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }
   return (
@@ -82,17 +82,14 @@ function DetailsScreen({ navigation }) {
       <View style={styles.background}>
         <Animated.View
           style={[styles.backgroundViewWrapper, { opacity: opacity }]}>
-          <Video
-            rate={1}
-            resizeMode="cover" isLooping isMuted positionMillis={0}
+          <Video rate={1} resizeMode="cover" isLooping isMuted positionMillis={0}
             shouldPlay style={{ flex: 1 }}
             source={
               require('./assets/videos/videoAI6.mp4')
             }
             onLoad={() => {
               Animated.timing(opacity, {
-                toValue: 1,
-                useNativeDriver: true,
+                toValue: 1, useNativeDriver: true,
               }).start();
             }}
           />
@@ -101,39 +98,32 @@ function DetailsScreen({ navigation }) {
 
 
       <View style={styles.title}>
-
-        {/* Aqui aparece na testa */}
-
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 230, marginLeft: 15 }}>
-          <Text style={{ fontFamily: 'RobotoCondensedBold', color: "rgba(9,66,125,1)", fontSize: 80 }}>
-            TELED
-          </Text>
-          <Text style={{ fontFamily: 'RobotoCondensedRegular', color: "rgba(9,66,125,1)", marginBottom: 50, fontSize: 28, alignItems: 'center' }}>
+          <Text style={{ fontFamily: 'RobotoCondensedBold', color: "rgba(9,66,125,1)", fontSize: 40 }}>
             DYAGNOSYS
           </Text>
+          <Text style={{ fontFamily: 'RobotoCondensedRegular', color: "rgba(9,66,125,1)", marginBottom: 10, fontSize: 22, alignItems: 'center' }}>
+            Inteligência Artificial
+          </Text>
+          <View style={{ paddingTop: 30 }}>
 
-          <TouchableHighlight
-            style={styles.button}
-            underlayColor="rgba(9,66,125,1)"
-            onPress={() => navigation.push('App_tfjs')}
-          >
-            <Text style={{
-              fontSize: 25,
-              padding: 12,
-            }}>Estado Emocional</Text>
-          </TouchableHighlight>
+            <TouchableHighlight
+              style={{
+                padding: 10, borderRadius: 2, backgroundColor: 'rgba(9,66,125,1)'
+              }}
+              onPress={() => navigation.push('Classificação de Imagens')}
+            >
+              <Text style={{
+                fontSize: 20, padding: 12, color: 'white'
+              }}>Classificação de Imagens</Text>
+            </TouchableHighlight>
 
+          </View>
         </View>
 
 
-
-
-
-
       </View>
-
-
-    </View>
+    </View >
 
 
 
@@ -148,10 +138,10 @@ function App() {
   if (fontsloaded) {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Details">
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="App_tfjs" component={App_tfjs} />
-          <Stack.Screen name="Details" component={DetailsScreen}
+        <Stack.Navigator initialRouteName="Principal">
+          {/* <Stack.Screen name="Tela Principal" component={HomeScreen} /> */}
+          <Stack.Screen name="Classificação de Imagens" component={App_tfjs} />
+          <Stack.Screen name="Principal" component={TelaPrincipal}
             options={{
               headerShown: false
             }}
