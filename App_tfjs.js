@@ -2,9 +2,9 @@ import { Camera } from "expo-camera";
 import React from "react";
 import { Button } from 'react-native';
 
-import { LoadingView } from "./app2.dyagnosys.com/src/LoadingView";
-import { ModelView } from "./app2.dyagnosys.com/src/ModelView";
-import { useTensorFlowLoaded } from "./app2.dyagnosys.com/src/useTensorFlow";
+import { LoadingView } from "./src/components/tfjs/LoadingView";
+import { ModelView } from "./src/components/tfjs/ModelView";
+import { useTensorFlowLoaded } from "./src/components/tfjs/useTensorFlow";
 
 export default function App() {
   const isLoaded = useTensorFlowLoaded();
